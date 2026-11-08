@@ -3,8 +3,13 @@
   "name": "CCT",
   "short_name": "CCT",
   "version": "8.0.0",
-  "description": "FutureSkill Course Skipper",
+  "description": "Complete your college online course in one click.",
   "homepage_url": "https://github.com/nitinyadavx/CCT",
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
   "permissions": [
     "scripting",
     "activeTab",
@@ -15,7 +20,8 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "CCT"
+    "default_title": "CCT",
+    "default_icon": "icon.png"
   },
   "content_scripts": [
     {
