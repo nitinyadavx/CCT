@@ -580,7 +580,12 @@
 
     const host = document.createElement('div');
     host.id = 'cct-v6-island';
-    host.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 2147483647;';
+   host.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 2147483647; display: none;';
+    window.addEventListener('keydown', (e) => {
+      if (e.altKey && e.code === 'KeyC') {
+        host.style.display = host.style.display === 'none' ? 'block' : 'none';
+      }
+    });
     const shadow = host.attachShadow({ mode: 'open' });
 
     shadow.innerHTML = `
