@@ -587,14 +587,14 @@
       <style>
         :host {
           all: initial;
+          padding: 24px;
           font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
           -webkit-font-smoothing: antialiased;
         }
-        @keyframes appleSpring {
-          0% { opacity: 0; transform: translateY(18px) scale(0.92); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
         .island {
+          opacity: 0;
+          transform: translateY(12px) scale(0.95);
+          pointer-events: none;
           width: 288px;
           background: rgba(22, 22, 24, 0.80);
           backdrop-filter: blur(32px) saturate(200%);
@@ -604,12 +604,14 @@
           padding: 15px;
           color: #F5F5F7;
           box-shadow: 0 24px 52px rgba(0, 0, 0, 0.55), inset 0 0.5px 0 rgba(255, 255, 255, 0.24);
-          animation: appleSpring 0.45s cubic-bezier(0.32, 0.72, 0, 1) forwards;
-          transition: width 0.38s cubic-bezier(0.32, 0.72, 0, 1),
-                      padding 0.38s cubic-bezier(0.32, 0.72, 0, 1),
-                      border-radius 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+          transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), width 0.38s cubic-bezier(0.32, 0.72, 0, 1);
           user-select: none;
           overflow: hidden;
+        }
+        :host(:hover) .island {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
         }
         .island.compact {
           width: 154px;
