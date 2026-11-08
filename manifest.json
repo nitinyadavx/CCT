@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "CCT",
+  "short_name": "CCT",
+  "version": "6.0.0",
+  "description": "Universal LMS & SCORM Watch-Time Forgery and Media Testing Suite with Quiz Guardrails.",
+  "homepage_url": "https://github.com/nitinyadavx/CCT",
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CCT"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "world": "MAIN",
+      "run_at": "document_start"
+    }
+  ]
+}
