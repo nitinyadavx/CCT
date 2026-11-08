@@ -6,7 +6,7 @@
     :root { color-scheme: dark; }
     body {
       margin: 0;
-      width: 286px;
+      width: 280px;
       padding: 16px;
       background: #161618;
       color: #F5F5F7;
@@ -58,55 +58,35 @@
       padding: 3px 8px;
       border-radius: 999px;
     }
-    .controls {
+    .hero-wrap {
       margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
     }
-    .btn {
+    .btn-hero {
       width: 100%;
-      padding: 10px;
-      border-radius: 12px;
+      padding: 13px 14px;
+      border-radius: 14px;
       border: none;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), filter 0.15s ease, background 0.2s ease;
-    }
-    .btn:active { transform: scale(0.96); }
-    .btn-primary {
       background: linear-gradient(180deg, #1A8CFF 0%, #007AFF 100%);
-      color: #FFF;
-      box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);
-    }
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.08);
-      color: #F5F5F7;
-      border: 0.5px solid rgba(255, 255, 255, 0.12);
-    }
-    .btn-glass:hover { background: rgba(255, 255, 255, 0.14); }
-    .segmented {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      background: rgba(118, 118, 128, 0.24);
-      padding: 3px;
-      border-radius: 11px;
-      gap: 4px;
-    }
-    .seg {
-      background: transparent;
-      color: #F5F5F7;
-      border: none;
-      border-radius: 8px;
-      padding: 7px 0;
-      font-size: 11px;
+      color: #FFFFFF;
+      font-size: 13px;
       font-weight: 600;
+      letter-spacing: -0.01em;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 6px 18px rgba(0, 122, 255, 0.38), inset 0 0.5px 0 rgba(255, 255, 255, 0.35);
+      transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), filter 0.18s ease, background 0.25s ease;
     }
-    .seg:hover, .seg.active { background: rgba(255, 255, 255, 0.18); }
-    .seg:active { transform: scale(0.94); }
+    .btn-hero:hover { filter: brightness(1.08); }
+    .btn-hero:active { transform: scale(0.96); }
+    .btn-hero.running {
+      background: linear-gradient(180deg, #30D158 0%, #248A3D 100%);
+      box-shadow: 0 6px 18px rgba(48, 209, 88, 0.35);
+    }
+    .hint {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 10px;
+      color: #8E8E93;
+    }
     .footer {
       margin-top: 14px;
       padding-top: 12px;
@@ -114,12 +94,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
     }
-    .meta {
-      font-size: 10px;
-      color: #8E8E93;
-    }
-    .repo-sticker {
+    .sticker {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -131,15 +108,21 @@
       font-size: 11px;
       font-weight: 600;
       text-decoration: none;
+      cursor: pointer;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
     }
-    .repo-sticker:hover {
+    .sticker:hover {
       transform: scale(1.06) translateY(-1px);
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.1));
     }
-    .repo-sticker:active { transform: scale(0.95); }
-    .repo-sticker svg { width: 13px; height: 13px; fill: currentColor; }
+    .sticker:active { transform: scale(0.95); }
+    .sticker-coffee {
+      background: linear-gradient(135deg, rgba(255, 159, 10, 0.28), rgba(255, 69, 58, 0.18));
+      border-color: rgba(255, 159, 10, 0.45);
+      color: #FFD60A;
+    }
+    .sticker svg { width: 13px; height: 13px; fill: currentColor; }
   </style>
 </head>
 <body>
@@ -148,26 +131,22 @@
       <div class="app-icon">CCT</div>
       <div class="titles">
         <h1>CCT</h1>
-        <p>Smart Watch-Time Forgery</p>
+        <p>by @nitinyadavx</p>
       </div>
     </div>
     <span class="shield-pill">Quiz Safe</span>
   </div>
 
-  <div class="controls">
-    <button class="btn btn-primary" id="p-skip">Mark as Completed</button>
-    <div class="segmented">
-      <button class="seg active" data-rate="1">1×</button>
-      <button class="seg" data-rate="2">2×</button>
-      <button class="seg" data-rate="8">8×</button>
-      <button class="seg" data-rate="16">16×</button>
-    </div>
-    <button class="btn btn-glass" id="p-next">Next Lecture Unit (Quiz Safe)</button>
+  <div class="hero-wrap">
+    <button class="btn-hero" id="p-oneclick">⚡ Mark as Completed</button>
+    <div class="hint" id="p-hint">Plays video, logs watch time &amp; auto-advances until Quiz</div>
   </div>
 
   <div class="footer">
-    <span class="meta"> Open Source • </span>
-    <a class="repo-sticker" href="https://github.com/nitinyadavx/CCT" target="_blank" rel="noopener noreferrer">
+    <a class="sticker sticker-coffee" href="coffee.html" target="_blank" rel="noopener noreferrer" title="Pay via UPI: nitinx@yesg">
+      <span>☕ Buy Me a Coffee</span>
+    </a>
+    <a class="sticker" href="https://github.com/nitinyadavx/CCT" target="_blank" rel="noopener noreferrer" title="GitHub Repository">
       <svg viewBox="0 0 16 16" aria-hidden="true">
         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
       </svg>

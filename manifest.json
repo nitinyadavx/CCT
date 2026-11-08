@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "CCT",
   "short_name": "CCT",
-  "version": "6.0.0",
-  "description": "Universal LMS & SCORM Watch-Time Forgery and Media Testing Suite with Quiz Guardrails.",
+  "version": "8.0.0",
+  "description": "FutureSkill Course Skipper",
   "homepage_url": "https://github.com/nitinyadavx/CCT",
   "permissions": [
     "scripting",

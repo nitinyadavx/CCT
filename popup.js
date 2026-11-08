@@ -1,4 +1,4 @@
-const sendToAllFrames = async (payload) => {
+const dispatchToPage = async (payload) => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true }).catch(() => []);
   const tab = tabs?.[0];
   if (!tab?.id) return;
@@ -10,49 +10,39 @@ const sendToAllFrames = async (payload) => {
 
   if (isRestricted) return;
 
-  const injectMessage = (msg) => {
-    window.postMessage({ source: 'CCT_V6_DOWN', ...msg }, '*');
+  const injectFn = (msg) => {
+    window.postMessage({ source: 'CCT_V8_BUS', ...msg }, '*');
   };
 
-  const res = await chrome.scripting
+  await chrome.scripting
     .executeScript({
-      target: { tabId: tab.id },
+      target: { tabId: tab.id, allFrames: true },
       world: 'MAIN',
-      func: injectMessage,
+      func: injectFn,
       args: [payload]
     })
-    .catch(() => null);
-
-  if (!res) {
-    await chrome.scripting
-      .executeScript({
-        target: { tabId: tab.id, allFrames: true },
-        world: 'MAIN',
-        func: injectMessage,
-        args: [payload]
-      })
-      .catch(() => null);
-  }
+    .catch(async () => {
+      await chrome.scripting
+        .executeScript({
+          target: { tabId: tab.id },
+          world: 'MAIN',
+          func: injectFn,
+          args: [payload]
+        })
+        .catch(() => null);
+    });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const skipBtn = document.getElementById('p-skip');
-  const nextBtn = document.getElementById('p-next') || document.getElementById('p-sync');
-  const segBtns = document.querySelectorAll('.seg');
+  const heroBtn = document.getElementById('p-oneclick');
+  const hintEl = document.getElementById('p-hint');
 
-  if (skipBtn) {
-    skipBtn.addEventListener('click', () => sendToAllFrames({ cmd: 'SKIP' }));
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => sendToAllFrames({ cmd: 'NEXT_UNIT' }));
-  }
-
-  segBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      segBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-      sendToAllFrames({ cmd: 'SPEED', rate: Number(btn.dataset.rate) || 1 });
+  if (heroBtn) {
+    heroBtn.addEventListener('click', () => {
+      heroBtn.classList.add('running');
+      heroBtn.textContent = '✓ Completing & Auto-Advancing...';
+      if (hintEl) hintEl.textContent = 'Playing video, forging watch time & marking read...';
+      dispatchToPage({ cmd: 'ONE_CLICK_START', speed: 16 });
     });
-  });
+  }
 });

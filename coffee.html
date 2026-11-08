@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy Nitin Yadav a Coffee • UPI (nitinx@yesg)</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 0%, #2C2C34 0%, #0D0D0F 75%);
+      color: #F5F5F7;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      width: 340px;
+      padding: 28px 24px;
+      background: rgba(28, 28, 30, 0.78);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 0.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 28px;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.6), inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(255, 159, 10, 0.18);
+      border: 0.5px solid rgba(255, 159, 10, 0.4);
+      color: #FFD60A;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 12px 0 4px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    p.sub {
+      margin: 0 0 18px;
+      font-size: 12px;
+      color: #8E8E93;
+    }
+    .qr-box {
+      background: #FFFFFF;
+      padding: 14px;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .qr-box img {
+      width: 180px;
+      height: 180px;
+      display: block;
+    }
+    .upi-pill {
+      margin: 16px auto 14px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 0.5px solid rgba(255, 255, 255, 0.12);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      color: #EBEBF5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.14);
+      color: #FFF;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.24); }
+    .pay-btn {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #1A8CFF 0%, #007AFF 100%);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 6px 16px rgba(0, 122, 255, 0.35);
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .pay-btn:hover { filter: brightness(1.08); }
+    .pay-btn:active { transform: scale(0.97); }
+    .apps {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #8E8E93;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">☕ Buy Me a Coffee</span>
+    <h1>Support Nitin Yadav</h1>
+    <p class="sub">Scan with any UPI App or click below</p>
+
+    <div class="qr-box">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=0&data=upi%3A%2F%2Fpay%3Fpa%3Dnitinx%40yesg%26pn%3DNitin%2520Yadav%26cu%3DINR"
+        alt="UPI QR Code for nitinx@yesg"
+      />
+    </div>
+
+    <div class="upi-pill">
+      <span id="upi-id">nitinx@yesg</span>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText('nitinx@yesg'); this.textContent='Copied!';">Copy</button>
+    </div>
+
+    <a class="pay-btn" href="upi://pay?pa=nitinx@yesg&pn=Nitin%20Yadav&cu=INR">
+      Open UPI App to Pay
+    </a>
+
+    <div class="apps">Works with GPay • PhonePe • Paytm • BHIM</div>
+  </div>
+</body>
+</html>
