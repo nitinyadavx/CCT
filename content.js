@@ -861,9 +861,10 @@
     document.body.appendChild(host);
   };
 
-  if (document.readyState === 'loading') {
+  /* Removing hidden HUD for now, as it may be confusing to users. The HUD can be re-enabled if needed in the future. */
+  /*if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mountAppleHUD);
   } else {
-    mountAppleHUD();
+    mountAppleHUD();*/
   }
 })();
