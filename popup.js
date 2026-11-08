@@ -1,33 +1,37 @@
 const sendToAllFrames = async (payload) => {
-  try {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab?.id || !tab.url || /^(chrome|edge|about|chrome-extension):/i.test(tab.url)) {
-      return;
-    }
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true }).catch(() => []);
+  const tab = tabs?.[0];
+  if (!tab?.id) return;
 
-    const injectMessage = (msg) => {
-      window.postMessage({ source: 'CCT_V6_DOWN', ...msg }, '*');
-    };
+  const url = tab.url || '';
+  const isRestricted =
+    /^(chrome|edge|about|brave|opera|vivaldi|view-source|devtools|chrome-extension):/i.test(url) ||
+    /chromewebstore\.google\.com|chrome\.google\.com\/webstore|microsoftedge\.microsoft\.com/i.test(url);
 
-    try {
-      // Dispatch to top frame first; content.js automatically relays down to nested iframes
-      await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        world: 'MAIN',
-        func: injectMessage,
-        args: [payload]
-      });
-    } catch (_) {
-      // Fallback: attempt all frames if top frame context is isolated
-      await chrome.scripting.executeScript({
+  if (isRestricted) return;
+
+  const injectMessage = (msg) => {
+    window.postMessage({ source: 'CCT_V6_DOWN', ...msg }, '*');
+  };
+
+  const res = await chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id },
+      world: 'MAIN',
+      func: injectMessage,
+      args: [payload]
+    })
+    .catch(() => null);
+
+  if (!res) {
+    await chrome.scripting
+      .executeScript({
         target: { tabId: tab.id, allFrames: true },
         world: 'MAIN',
         func: injectMessage,
         args: [payload]
-      }).catch(() => {});
-    }
-  } catch (err) {
-    console.warn('[CCT Popup] Dispatch skipped:', err.message);
+      })
+      .catch(() => null);
   }
 };
 
