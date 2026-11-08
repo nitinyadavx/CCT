@@ -1,24 +1,54 @@
 const sendToAllFrames = async (payload) => {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab?.id) return;
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab?.id || !tab.url || /^(chrome|edge|about|chrome-extension):/i.test(tab.url)) {
+      return;
+    }
 
-  await chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    world: 'MAIN',
-    func: (msg) => {
+    const injectMessage = (msg) => {
       window.postMessage({ source: 'CCT_V6_DOWN', ...msg }, '*');
-    },
-    args: [payload]
-  });
+    };
+
+    try {
+      // Dispatch to top frame first; content.js automatically relays down to nested iframes
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        world: 'MAIN',
+        func: injectMessage,
+        args: [payload]
+      });
+    } catch (_) {
+      // Fallback: attempt all frames if top frame context is isolated
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id, allFrames: true },
+        world: 'MAIN',
+        func: injectMessage,
+        args: [payload]
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.warn('[CCT Popup] Dispatch skipped:', err.message);
+  }
 };
 
-document.getElementById('p-skip').onclick = () => sendToAllFrames({ cmd: 'SKIP' });
-document.getElementById('p-next').onclick = () => sendToAllFrames({ cmd: 'NEXT_UNIT' });
+document.addEventListener('DOMContentLoaded', () => {
+  const skipBtn = document.getElementById('p-skip');
+  const nextBtn = document.getElementById('p-next') || document.getElementById('p-sync');
+  const segBtns = document.querySelectorAll('.seg');
 
-document.querySelectorAll('.seg').forEach((btn) => {
-  btn.onclick = () => {
-    document.querySelectorAll('.seg').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    sendToAllFrames({ cmd: 'SPEED', rate: Number(btn.dataset.rate) });
-  };
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => sendToAllFrames({ cmd: 'SKIP' }));
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => sendToAllFrames({ cmd: 'NEXT_UNIT' }));
+  }
+
+  segBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      segBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      sendToAllFrames({ cmd: 'SPEED', rate: Number(btn.dataset.rate) || 1 });
+    });
+  });
 });
